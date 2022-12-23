@@ -1,16 +1,18 @@
 import Image from "next/image";
+import Link from "next/link";
 
 
-const Page = ({data}) => {
+const Page = ({data, header}) => {
     return (
         <div>
+            <h1>{header}</h1>
             {
                 data.map((info, key) => {
                     return (
-                        <a href={`/events/${info.id}`} key={key}>
-                        <Image src={info.image} height={200} width={200}/>
+                        <Link href={`/events/${info.city}/${info.id}`} key={key}>
+                        <Image src={info.image} height={200} width={200} alt={info.id}/>
                         <h1>{info.title}</h1>
-                        </a>
+                        </Link>
                     )
                 })
             }
@@ -44,7 +46,8 @@ export async function getStaticProps(context) {
     const infos = data.allEvents.filter((page) => id == page.city)
     return {
         props: {
-            data: infos
+            data: infos,
+            header: id
         }
     }
 }
